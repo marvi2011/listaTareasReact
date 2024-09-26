@@ -2,9 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ListaTareas from "./ListaTareas";
 import { useForm } from "react-hook-form";
-import { useState
-
- } from "react";
+import { useState } from "react";
 const FormularioTarea = () => {
   const {
     register,
@@ -12,13 +10,17 @@ const FormularioTarea = () => {
     formState: { errors },
     reset,
   } = useForm();
-  const [arrayTareas, setArrayTareas]=useState([])
+  const [arrayTareas, setArrayTareas] = useState([]);
   const onSubmit = (data) => {
     console.log(data.tarea);
     //ahora debe guardar la Tarea en el State
-setArrayTareas([...arrayTareas,data.tarea])
-//limpiamos el formulario
-reset()
+    setArrayTareas([...arrayTareas, data.tarea]);
+    //limpiamos el formulario
+    reset();
+  };
+  const borrarTarea = (nombreTarea) => {
+    const arrayFiltrado = arrayTareas.filter((tarea) => tarea !== nombreTarea);
+    setArrayTareas(arrayFiltrado);
   };
   return (
     <section>
@@ -46,7 +48,10 @@ reset()
         </Form.Group>
         <Form.Text className="text-danger">{errors.tarea?.message}</Form.Text>
       </Form>
-      <ListaTareas arrayTareas={arrayTareas}></ListaTareas>
+      <ListaTareas
+        arrayTareas={arrayTareas}
+        borrarTarea={borrarTarea}
+      ></ListaTareas>
     </section>
   );
 };
