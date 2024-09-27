@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import ListaTareas from "./ListaTareas";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const FormularioTarea = () => {
   const {
     register,
@@ -10,7 +10,17 @@ const FormularioTarea = () => {
     formState: { errors },
     reset,
   } = useForm();
-  const [arrayTareas, setArrayTareas] = useState([]);
+
+  const leerLocalStorage =
+    JSON.parse(localStorage.getItem("listaTareaskey")) || [];
+  const [arrayTareas, setArrayTareas] = useState(leerLocalStorage);
+
+  //aqui uso el ciclo de vida
+  useEffect(() => {
+    console.log("desde el useEffect, usando el componente de vida");
+    localStorage.setItem("listaTareaskey", JSON.stringify(arrayTareas));
+  });
+
   const onSubmit = (data) => {
     console.log(data.tarea);
     //ahora debe guardar la Tarea en el State
